@@ -1,0 +1,204 @@
+
+<div class="modal fade" id="registeruserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Account</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" id="registerForm" method="POST" action=" {% url 'accounts:register_user' %} ">
+          {% csrf_token %}
+          <div id="registerformError" class="alert alert-danger" style="display: none;"></div>
+          <div class="col-md-6">
+            <label for="firstname" class="form-label">First Name</label>
+            <input type="text" class="form-control" name="firstname" id="fname">
+            <span id="fnameError" class="text-danger form-error" style="display: none;"></span>
+          </div>
+          <div class="col-md-6">
+            <label for="lastname" class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="lastname" id="lname">
+            <span id="lnameError" class="text-danger form-error" style="display: none;"></span>
+          </div>
+          <div class="col-12">
+            <label for="username" class="form-label">Username</label>
+            <div class="input-group">
+              <div class="input-group-text">@</div>
+              <input type="text" class="form-control" name="username" id="uname" >
+            </div>
+            <span id="unameError" class="text-danger form-error" style="display: none;"></span>
+          </div>
+          <div class="col-12">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" name="email" id="email">
+            <span id="emailError" class="text-danger form-error" style="display: none;"></span>
+          </div>
+          <div class="col-12">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+            <span id="pwdError" class="text-danger form-error" style="display: none;"></span>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  /* Modal Overlay */
+#registeruserModal {
+    background-color: rgba(41, 50, 65, 0.8); /* Dark blue-gray overlay */
+}
+
+/* Modal Container */
+.modal-dialog {
+    max-width: 500px;
+    margin: 1.75rem auto;
+}
+
+/* Modal Content */
+.modal-content {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+}
+
+/* Modal Header */
+.modal-header {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: white;
+    border-bottom: none;
+    padding: 1.2rem 1.5rem;
+}
+
+.modal-title {
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+
+.btn-close {
+    filter: invert(1);
+    opacity: 0.8;
+    transition: all 0.2s;
+}
+
+.btn-close:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 1.8rem;
+}
+
+/* Form Elements */
+#registerForm {
+    margin-top: 0.5rem;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-control {
+    padding: 0.75rem 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.3s;
+    font-size: 0.95rem;
+}
+
+.form-control:focus {
+    border-color: #a777e3;
+    box-shadow: 0 0 0 0.25rem rgba(167, 119, 227, 0.2);
+}
+
+.input-group-text {
+    background-color: #f1f3f5;
+    border-color: #e0e0e0;
+    color: #6c757d;
+}
+
+/* Error Messages */
+.text-danger.form-error {
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+    display: block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+#registerformError {
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+/* Submit Button */
+.btn-primary {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    border-radius: 8px;
+    width: 100%;
+    margin-top: 0.5rem;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(110, 142, 251, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(110, 142, 251, 0.4);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 0.5rem auto;
+    }
+    
+    .modal-content {
+        border-radius: 0;
+    }
+    
+    .modal-body {
+        padding: 1.2rem;
+    }
+    
+    .col-md-6 {
+        width: 100%;
+    }
+}
+
+/* Animation for modal appearance */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal.fade .modal-dialog {
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+/* Input focus labels */
+.form-control:focus + .form-label {
+    color: #a777e3;
+}
+</style>

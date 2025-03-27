@@ -1,0 +1,127 @@
+<style>/* General Styles */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+    }
+    
+    /* Title Block */
+    h1.my_prod_title {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+    
+    p.text-justify {
+        color: #555;
+    }
+    
+    /* Image Styling */
+    img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Button Styling */
+    .btn {
+        padding: 10px 20px;
+        border-radius: 25px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .btn-secondary {
+        background-color: #3498db;
+        color: white;
+        border: none;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #2980b9;
+    }
+    
+    /* Product Row Layout */
+    .my_prod_row_class {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    
+    .mx_auto {
+        text-align: center;
+    }
+    
+    .container {
+        background-color: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Breadcrumb Navigation */
+    .row p a {
+        text-decoration: none;
+        color: #3498db;
+        font-weight: bold;
+    }
+    
+    .row p a:hover {
+        color: #2980b9;
+    }
+    
+    /* Product Description */
+    .my_prod_text {
+        font-size: 1.1rem;
+        margin-top: 20px;
+    }
+    
+    .my_rod_text {
+        font-size: 1.2rem;
+        color: #7f8c8d;
+        margin-top: 10px;
+    }
+    
+    /* Stock Warning */
+    .text-justify b {
+        color: red;
+        font-size: 1.2rem;
+    }
+    </style>
+{% block title %}
+    {% if category %}
+        {{ product.name }} placeholder
+    {% endif %}
+{% endblock %}
+{% block content %}
+<div class="row my_prod_row_class">
+    <div  class="mx_auto">
+        <p><a href="{% url 'shop:allProdCat' %}">Home</a> | <a href="{{product.category.get_url}}">{{product.category}}</a> |{{product.name}}</p>
+    </div>
+</div>
+<div class="container">
+<br>
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center">
+        <div style="min-width:18rem">
+              <img src="{{product.image.url}}" alt="{{product.name}}">
+        </div>
+    </div>
+<div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+        <h1 class="my_prod_title">{{product.name}}</h1>
+            <p>${{product.price}}</p>
+            <p class="text-justify my_rod_text">Product Description</p>
+            <p>{{product.description}}</p>
+            {% if product.stock <= 0 %}
+            <p class="text-justify my_prod_text"><b>Out of stock</b></p>
+            {% else %}
+            <a class="btn btn-secondary" href="{% url 'cart:add_cart' product.id %}">Add to Cart</a>
+            {% endif %}
+    </div>
+</div>
+
+        </div>
+</div>
+{% endblock %}

@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+cart items
+{% endblock %}
+{% block title %}
+placeholder
+{% endblock %}
+{% block content %}
+{% if not cart_items %}
+<div>
+    <div class="text-center">
+        <br>
+        <h1 class="text-center my_title">
+             cart is empty
+        </h1>
+        <br>
+        <p class="text-center">
+            Please Click <a href="{% url 'shop:allProdCat' %}">Here</a>to continue
+        </p>
+    </div>
+    {% else %}
+    <div>
+        <div class="text-center">
+            <br>
+            <h1 class="text-center my_title">
+               Shopping Cart
+            </h1>
+            <br>
+        </div>
+
+        <div class="row mx-auto">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+                <table class="table my_custom_table">
+                    <thead class="my_custom_thead">
+                    <tr>
+                        <th colspan="5">
+                            Your Items
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for cart_item in cart_items %}
+                    <tr>
+                        <td>
+                            <a href="cart_item.product.get_absolute_url"><img src="{{cart_item.product.image.url}}" alt="" class="float-left rounded custom_image"></a>
+                        </td>
+                        <td class="text-lef">
+                            {{cart_item.product.name}}
+                            <br>
+                            SKU: {{cart_item_product.id}}
+                            <br>
+                            price: $ {{cart_item.product.price }}
+                            <br>
+                            Qty: {{cart_item.quantity}} x $ {{cart_item}}
+                        </td>
+                        <td>
+                            $ {{cart_item.sub_total}}
+                        </td>
+                        {% if cart_item.quantity < cart_item.product.stock %}
+                        <td>
+                            <a href="{% url 'cart:add_cart' cart_item.product.id %}" class="custom_a"><i class="fa fa-plus custom_icon"></i></a>
+                            &nbsp;<a href="" class="custom_a"><i class="fa fa-minus custom_icon"></i></a>
+                            &nbsp;<a href="" class="custom_icon"><i class="fa fa-trash custom_icon"></i></a>
+                        </td>
+                        {% else %}
+                        <td>
+
+                            &nbsp;<a href="" class="custom_a"><i class="fa fa-minus custom_icon"></i></a>
+                            &nbsp;<a href="" class="custom_icon"><i class="fa fa-trash custom_icon"></i></a>
+                        </td>
+                         {% endif %}
+
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+             <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+                <table class="table my_custom_table">
+                    <thead class="my_custom_thead">
+                    <tr>
+                        <th>
+                            Checkout
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            Please review your shopping cart 
+                        </td>
+                    </tr>
+                    </tbody>
+                    <table>
+                        <div class="mx-auto">
+                            <a href="{% url 'shop:allProdCat' %}" class="btn btn-secondary btn-block my_custom_button">resume Shoping</a>
+                        </div>
+                    </table>
+                </table>
+        </div>
+        </div>
+
+
+
+     {% endif %}
+
+          </div>
+</div>
+        {% endblock %}
+<style>
+/* Shopping Cart Container */
+.my_title {
+    color: #2c3e50;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+}
+
+.my_title:after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 4px;
+    background: linear-gradient(90deg, #6e8efb, #a777e3);
+    bottom: -10px;
+    left: 25%;
+    border-radius: 2px;
+}
+
+/* Empty Cart Styling */
+.text-center p {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    margin-top: 1rem;
+}
+
+.text-center a {
+    color: #6e8efb;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+    border-bottom: 2px dotted #6e8efb;
+}
+
+.text-center a:hover {
+    color: #a777e3;
+    border-bottom-style: solid;
+}
+
+/* Cart Table Styling */
+.my_custom_table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 2rem;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.my_custom_thead {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: white;
+}
+
+.my_custom_thead th {
+    padding: 1.2rem;
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+}
+
+.my_custom_table tbody tr {
+    transition: all 0.2s;
+}
+
+.my_custom_table tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.my_custom_table td {
+    padding: 1.2rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f3f5;
+    color: #495057;
+}
+
+/* Product Image */
+.custom_image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 2px solid #f1f3f5;
+    transition: all 0.3s;
+}
+
+.custom_image:hover {
+    transform: scale(1.05);
+    border-color: #6e8efb;
+}
+
+/* Quantity Controls */
+.custom_a {
+    color: #6e8efb;
+    font-size: 1.1rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+.custom_a:hover {
+    color: white;
+    background-color: #6e8efb;
+    transform: scale(1.1);
+}
+
+.custom_icon {
+    font-size: 1rem;
+}
+
+/* Checkout Section */
+.col-lg-6 .my_custom_table {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+}
+
+.col-lg-6 .my_custom_thead {
+    background: linear-gradient(135deg, #4e73df, #224abe);
+}
+
+/* Buttons */
+.my_custom_button {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    border: none;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s;
+    width: 100%;
+    margin-top: 1rem;
+    box-shadow: 0 4px 15px rgba(110, 142, 251, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.my_custom_button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(110, 142, 251, 0.4);
+    color: white;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+    border: none;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .my_title {
+        font-size: 1.8rem;
+    }
+    
+    .my_custom_table {
+        font-size: 0.9rem;
+    }
+    
+    .custom_image {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .my_custom_table td, 
+    .my_custom_table th {
+        padding: 0.8rem;
+    }
+}
+
+/* Animation for empty cart */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.text-center {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Price Highlight */
+td:nth-child(3) {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Product Name Styling */
+.text-lef {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.text-lef br {
+    display: block;
+    margin: 0.5rem 0;
+    content: " ";
+}
+</style>
