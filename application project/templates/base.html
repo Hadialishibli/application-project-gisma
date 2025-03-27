@@ -84,6 +84,110 @@
     });
 });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Function to get cart items from localStorage
+        function getCartItems() {
+            return JSON.parse(localStorage.getItem('cartItems') || '[]');
+        }
+    
+        // Function to save cart items to localStorage
+        function saveCartItems(cartItems) {
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        }
+    
+        // Function to add recommendation to the page
+        function showRecommendation() {
+            const cartItems = getCartItems();
+            
+            // If no cart items, do nothing
+            if (cartItems.length === 0) return;
+    
+            // Get the latest added item
+            const latestItem = cartItems[cartItems.length - 1];
+    
+            // Create recommendation container
+            const recommendationContainer = document.createElement('div');
+            recommendationContainer.id = 'product-recommendation';
+            recommendationContainer.style.position = 'fixed';
+            recommendationContainer.style.bottom = '20px';
+            recommendationContainer.style.right = '20px';
+            recommendationContainer.style.backgroundColor = '#f8f9fa';
+            recommendationContainer.style.border = '1px solid #ddd';
+            recommendationContainer.style.padding = '15px';
+            recommendationContainer.style.borderRadius = '8px';
+            recommendationContainer.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+            recommendationContainer.style.zIndex = '1000';
+    
+            // Recommendation content
+            recommendationContainer.innerHTML = `
+                <h5>Recommended for You</h5>
+                <img src="${latestItem.imageUrl}" alt="${latestItem.name}" style="max-width: 100px; max-height: 100px;">
+                <p>${latestItem.name}</p>
+                <p>Price: $${latestItem.price}</p>
+                <a href="${latestItem.url}" class="btn btn-primary">View Product</a>
+            `;
+    
+            // Add close button
+            const closeButton = document.createElement('button');
+            closeButton.innerHTML = '&times;';
+            closeButton.style.position = 'absolute';
+            closeButton.style.top = '5px';
+            closeButton.style.right = '5px';
+            closeButton.style.background = 'none';
+            closeButton.style.border = 'none';
+            closeButton.style.fontSize = '20px';
+            closeButton.style.cursor = 'pointer';
+            closeButton.onclick = () => {
+                document.body.removeChild(recommendationContainer);
+            };
+    
+            recommendationContainer.appendChild(closeButton);
+    
+            // Add to page
+            document.body.appendChild(recommendationContainer);
+        }
+    
+        // Intercept cart add functionality
+        $(document).ready(function() {
+            // Modify the existing cart add functionality
+            $('a[href*="add_cart"]').on('click', function(e) {
+                const $this = $(this);
+                const productId = $this.attr('href').split('/').pop();
+    
+                // Make an AJAX call to get product details
+                $.ajax({
+                    url: $this.attr('href'),
+                    method: 'GET',
+                    success: function(response) {
+                        // This is a placeholder. You'll need to adjust based on your actual response structure
+                        const productDetails = {
+                            id: productId,
+                            name: $this.closest('.card-body, [class*="product"]').find('h4').text(),
+                            price: $this.closest('.card-body, [class*="product"]').find('p').text().replace('$', '').trim(),
+                            imageUrl: $this.closest('.card, [class*="product"]').find('img').attr('src'),
+                            url: $this.attr('href').replace('add_cart', 'product_detail')
+                        };
+    
+                        // Get existing cart items
+                        const cartItems = getCartItems();
+                        
+                        // Add new item
+                        cartItems.push(productDetails);
+    
+                        // Save updated cart items
+                        saveCartItems(cartItems);
+    
+                        // Show recommendation
+                        showRecommendation();
+                    }
+                });
+            });
+        });
+    });
+    </script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 </body>
 </html>
 <style>
