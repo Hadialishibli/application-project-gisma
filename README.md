@@ -7,5 +7,5 @@ If you created a superuser, you can access the admin panel by visiting:
 
 http://127.0.0.1:8000/admin/
 for admin page
-and go to 
+and go to http://127.0.0.1:8000
 to see the website in action
